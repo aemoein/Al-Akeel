@@ -1,5 +1,4 @@
 package main;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,5 +52,50 @@ public class Order {
         this.restaurantId = restaurantId;
         this.orderStatus = orderStatus;
     }
+    
+
+    public void setId(long id) {
+		this.id = id;
+	}
+
+	public void setItemsArray(List<Meal> item) {
+		this.items=item;
+	} 
+
+	public void setTotalPrice(float totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	public void setfk_runnerId(long runnerId) {
+		this.runnerId = runnerId;
+	}
+
+	public void setRestaurantId(long restaurantId) {
+		this.restaurantId = restaurantId;
+	}
+
+	public void setOrder_status(String orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+
+	public long getId() {return this.id;}
+
+	public List<Meal> getItemsArray() {return this.items;} 
+
+	public float getTotalPrice() {return this.totalPrice;}
+
+	public long getRunnerId() {return this.runnerId;}
+
+	public long getResturantId() {return this.restaurantId;}
+
+	public String getOrder_status() {return this.orderStatus;}
+
+	public void addItems(Meal meal) {
+		this.items.add(meal);
+	}
+
+	public void RemoveItems(Meal meal) {
+		this.items.remove(meal);
+	}
     
 }
