@@ -4,9 +4,12 @@ import java.sql.RowId;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Persistence;
 
 @Entity
 public class Restaurant {
@@ -60,4 +63,24 @@ public class Restaurant {
 		return this.ownerId;
 	}
 	
+	public void addMeal(Meal meal)
+	{
+		// add meal to the menu 
+		
+		
+		// add the menu to the DB
+		// creating entity manger 
+		EntityManagerFactory entityManger = Persistence.createEntityManagerFactory("");
+	}
+	
+	public void removeMeal(Meal meal)
+	{
+		
+		// remove meal to the menu 
+		
+		
+		// remove the menu to the DB
+		// creating entity manger 
+		EntityManagerFactory entityManger = Persistence.createEntityManagerFactory("");
+	}
 }
