@@ -60,7 +60,7 @@ public class Meal {
         this.name = name;
     }
 
-    public double getPrice() {
+    public float getPrice() {
         return price;
     }
 

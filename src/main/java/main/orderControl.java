@@ -14,13 +14,17 @@ public class orderControl {
         return entityManager.find(Restaurant.class, restaurantId);
     }
 
-    public Meal getMeal(int mealId) {
+    public Meal getMeal(long mealId) {
         return entityManager.find(Meal.class, mealId);
     }
 
     public List<Meal> getMeals() {
         return entityManager.createQuery("SELECT m FROM Meal m", Meal.class)
                 .getResultList();
+    }
+    
+    public Order getOrder(long orderId) {
+        return entityManager.find(Order.class, orderId);
     }
 }
 

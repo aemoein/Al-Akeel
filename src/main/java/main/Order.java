@@ -72,6 +72,11 @@ public class Order {
 		this.runnerId = runnerId;
 	}
 
+    public void setUserId(long userId)
+    {
+        this.userId = userId;
+    }
+
 	public void setRestaurantId(long restaurantId) {
 		this.restaurantId = restaurantId;
 	}

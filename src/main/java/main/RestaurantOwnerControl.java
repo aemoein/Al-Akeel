@@ -1,18 +1,12 @@
 package main;
 
-import java.awt.MenuItem;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.locks.Condition;
 
 import javax.ejb.Stateless;
-import javax.faces.component.search.UntargetableComponent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-
-import org.jboss.resteasy.spi.touri.URITemplateAnnotationResolver;
 
 @Stateless
 public class RestaurantOwnerControl {
