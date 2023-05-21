@@ -16,7 +16,6 @@ import javax.ws.rs.core.Response;
 @Path("/orderControl")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@RolesAllowed("Customer")
 @PersistenceContext(unitName = "databaseConnection")
 public class orderControl {
     private EntityManager entityManager;

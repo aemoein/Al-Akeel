@@ -2,9 +2,11 @@ package main;
 
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -14,11 +16,14 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Stateless
-@Path("/runners") // Base path for the resource
+@Path("/runners")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+@RolesAllowed("Runner")
+@PersistenceContext(unitName = "databaseConnection")
 public class RunnerController {
 	orderControl orderControl = new orderControl();
 	
-    @PersistenceContext(unitName = "databaseConnection")
     private EntityManager entityManager;
 
     @PUT
@@ -63,28 +68,25 @@ public class RunnerController {
 
     @GET
     @Path("/trips")
-    @Produces(MediaType.APPLICATION_JSON)
-    public int getTripsCount() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM Order o WHERE o.orderStatus = 'completed'", Long.class)
-                .getSingleResult().intValue();
+    public Response getTripsCount() {
+        return Response.ok(" Number of trips: " + entityManager.createQuery("SELECT COUNT(o) FROM Order o WHERE o.orderStatus = 'completed'", Long.class).getSingleResult().intValue()).build();
     }
     
     
-    /********************************************************************************/
     @GET
     @Path("/history")
-    @Produces(MediaType.APPLICATION_JSON)
-    
-    // please fix this code later with StringBuilder.
-    
     public Response getTripsHistory() {
-        List<Order> completedOrders = entityManager.createQuery("SELECT o FROM Order o WHERE o.orderStatus = 'completed'", Order.class).getResultList();
-        for (Order order : completedOrders) {
-        	Restaurant restaurant = entityManager.find(Restaurant.class, order.getResturantId());
-            String responseString = "Order ID: " + order.getId() + ", Restaurant Name: " + restaurant.getName();
-        }
-        return Response.ok().build();
-    }
-    
-    /********************************************************************************/
+    	List<Order> completedOrders = entityManager.createQuery("SELECT o FROM Order o WHERE o.orderStatus = 'completed'", Order.class).getResultList();
+    	StringBuilder output = new StringBuilder();
+
+    	for (Order order : completedOrders) {
+    	    Restaurant restaurant = entityManager.find(Restaurant.class, order.getResturantId());
+    	    String orderDetails = "Order ID: " + order.getId() + ", Restaurant Name: " + restaurant.getName();
+    	    output.append(orderDetails).append("\n");
+    	}
+
+    	String outputString = output.toString();
+    	return Response.ok(outputString).build();
+
+    }   
 }

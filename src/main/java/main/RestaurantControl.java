@@ -1,8 +1,5 @@
 package main;
 
-import java.util.List;
-import java.util.Scanner;
-
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
