@@ -10,40 +10,47 @@ import javax.persistence.TypedQuery;
 
 @Stateless
 public class RestaurantOwnerControl {
+	RestaurantControl restaurantControl = new RestaurantControl();
 	
 	@PersistenceContext(unitName = "databaseConnection")
     private EntityManager entityManager;
 	
 	Scanner sc=new Scanner(System.in);
 	
-	public void CreateMenu()
+	public List<Meal> CreateMenu(long restaurantId)
 	{
-		System.out.print("enter the id of the restaurant you want create menu for: ");
-		long restaurantId = sc.nextInt();
 		Restaurant restaurant = entityManager.find(Restaurant.class, restaurantId);
-		System.out.print("enetr the number of meals you want add to menu: ");
+		
+		System.out.print("eneter the number of meals you want add to menu: ");
 		int numMeals = sc.nextInt();
-		while (numMeals !=0)
+		
+		for (int i=0; i<numMeals; i++)
 		{
 			System.out.println("enetr the name of the meal: ");
 			String mealName = sc.next();
+			
 			System.out.println("enetr the price of the meal: ");
 			Float mealPrice = sc.nextFloat();
-			Meal newMeal = new Meal(mealName,mealPrice,restaurantId);
-			restaurant.addMeal(newMeal);
-			numMeals --;
+			
+			restaurantControl.addMeal(mealName,mealPrice,restaurantId);
 		}
+		
+		return restaurant.getMeals();	
 	}
 	
 	public void GetRestaurantDetails(Long restaurantId)
 	{
-		List<Meal> restaurant;
-		restaurant = entityManager.find(Restaurant.class, restaurantId).getMeals();
+		
+		Restaurant restaurant = entityManager.find(Restaurant.class, restaurantId);
+		
+		List<Meal> mealsMenu = restaurant.getMeals();
+		
 		System.out.println("Here is your restuarant details: ");
-		System.out.println("Restuarnt ID: " + entityManager.find(Restaurant.class, restaurantId).getId());
-		System.out.println("Restuarnt Name: " + entityManager.find(Restaurant.class, restaurantId).getName());
-		System.out.println("list of meals in the restaurant");
-		for (Meal meals : restaurant)
+		System.out.println("Restuarnt ID: " + restaurant.getId());
+		System.out.println("Restuarnt Name: " + restaurant.getName());
+		System.out.println("list of meals in the restaurant: ");
+		
+		for (Meal meals : mealsMenu)
 		{
 			System.out.println(meals.getName());
 		}
@@ -52,6 +59,34 @@ public class RestaurantOwnerControl {
 	public void EditRestaurant(Long restaurantId, Long mealId)
 	{
 		
+		Restaurant restaurant = entityManager.find(Restaurant.class, restaurantId);
+		
+		System.out.println("What Would you like to Change?");
+		System.out.println("1. Restaurant Name");
+		System.out.println("2. Menu");
+		System.out.println("3. Exit");
+		int choice = sc.nextInt();
+		
+		switch (choice) {
+		case 1:
+			System.out.println("The Restaurnt's name is:" + restaurant.getName());
+			System.out.println("Enter the new name: ");
+			String NewName = sc.nextLine();
+			restaurant.setName(NewName);
+			System.out.println("The New Restaurnt name is:" + restaurant.getName());
+			break;
+			
+		case 2:
+			
+			break;
+			
+		case 3:
+			
+			break;
+
+		default:
+			break;
+		}
 	}
 	
 	public void CreateRestaurantReport(Long restaurantId)

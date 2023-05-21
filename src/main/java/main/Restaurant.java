@@ -73,18 +73,6 @@ public class Restaurant {
 	{
 		return this.ownerId;
 	}
-	
-	public void addMeal(Meal meal) {
-        meals.add(meal);
-        meal.setRestaurant(this);
-        entityManager.merge(meal);
-    }
-
-    public void removeMeal(Meal meal) {
-        meals.remove(meal);
-        meal.setRestaurant(null);
-        entityManager.merge(meal);
-    }
     
     public List<Meal> getMeals() {
         return meals;
