@@ -2,8 +2,10 @@ package main;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "Runner")
 public class Runner extends User {
 	@Column(name = "status")
 	boolean Status;

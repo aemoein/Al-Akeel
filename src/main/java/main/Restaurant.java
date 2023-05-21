@@ -10,8 +10,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Persistence;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "Restaurant")
 public class Restaurant {
 	
 	@Id
