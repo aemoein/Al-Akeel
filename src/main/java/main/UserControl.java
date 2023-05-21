@@ -18,7 +18,7 @@ import java.util.Scanner;
 @Path("/user")
 public class UserControl {
 	
-	@PersistenceContext
+	@PersistenceContext(unitName = "databaseConnection")
 	private EntityManager entityManager;
 
 	@POST
