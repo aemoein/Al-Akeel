@@ -28,6 +28,7 @@ public class CustomerControl {
     	Scanner scanner = new Scanner(System.in);
     	User OrderUser = UserCredentials.currentUser;
     	float totalprice = 0;
+    	Restaurant restaurant = entityManager.find(Restaurant.class, restaurantId);
     	
         Order order = new Order();
         order.setRestaurantId(restaurantId);
@@ -36,11 +37,11 @@ public class CustomerControl {
         boolean addtoOrder = true;
         
         while(addtoOrder) {
-        	orderControl.getRestaurant(order.getResturantId()).getMeals();
+        	restaurant.getMeals();
             System.out.println("choose the meal you would like to add");
             int AddChoice = scanner.nextInt();
-            order.addItems(orderControl.getRestaurant(order.getResturantId()).getMeals().get(AddChoice-1));
-            totalprice =+ orderControl.getRestaurant(order.getResturantId()).getMeals().get(AddChoice-1).getPrice();
+            order.addItems(restaurant.getMeals().get(AddChoice-1));
+            totalprice =+ restaurant.getMeals().get(AddChoice-1).getPrice();
             
             System.out.println("Would you like to add more Meals? 1. Yes 2. No : ");
             int Cont = scanner.nextInt();
@@ -54,7 +55,7 @@ public class CustomerControl {
         order.setTotalPrice(totalprice);
         
         entityManager.persist(order);
-        return Response.ok().build();
+        return Response.ok(order).build();
     }
 
     @PUT
@@ -70,19 +71,21 @@ public class CustomerControl {
             System.out.println("2. Add item");
             System.out.println("3. Exit");
             choice = scanner.nextInt();
+            Order order = entityManager.find(Order.class, orderId);
+            Restaurant restaurant = entityManager.find(Restaurant.class, order.getResturantId());
     	
             if (choice == 1) {
-                orderControl.getOrder(orderId).getItemsArray();
+            	order.getItemsArray();
                 System.out.println("choose the meal you would like to remove");
                 int removeChoice = scanner.nextInt();
-                orderControl.getOrder(orderId).getItemsArray().remove(removeChoice-1);
+                order.getItemsArray().remove(removeChoice-1);
             }
 
             else if (choice == 2) {
-                orderControl.getRestaurant(orderControl.getOrder(orderId).getResturantId()).getMeals();
+            	restaurant.getMeals();
                 System.out.println("choose the meal you would like to add");
                 int AddChoice = scanner.nextInt();
-                orderControl.getOrder(orderId).addItems(orderControl.getRestaurant(orderControl.getOrder(orderId).getResturantId()).getMeals().get(AddChoice));
+                order.addItems(restaurant.getMeals().get(AddChoice));
             }
 
             else {
@@ -95,7 +98,8 @@ public class CustomerControl {
     @PUT
     @Path("/cancel-order/{orderId}")
     public Response cancelOrder(@PathParam("orderId") long orderId) {
-    	orderControl.getOrder(orderId).setOrderStatus("Cancelled");
+    	Order order = entityManager.find(Order.class, orderId);
+    	order.setOrderStatus("Cancelled");
     	entityManager.persist(orderControl.getOrder(orderId));
         return Response.ok().build();
     }

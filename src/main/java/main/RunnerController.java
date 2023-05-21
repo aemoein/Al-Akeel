@@ -38,17 +38,14 @@ public class RunnerController {
     }
 
     public int getTripsN() {
-        return entityManager.createQuery("SELECT COUNT(o) FROM Order o WHERE o.orderStatus = 'completed'", Long.class)
-                .getSingleResult()
-                .intValue();
+        return entityManager.createQuery("SELECT COUNT(o) FROM Order o WHERE o.orderStatus = 'completed'", Long.class).getSingleResult().intValue();
     }
 
     public void getTripsHistory() {
-        List<Order> completedOrders = entityManager.createQuery("SELECT o FROM Order o WHERE o.orderStatus = 'completed'", Order.class)
-                .getResultList();
+        List<Order> completedOrders = entityManager.createQuery("SELECT o FROM Order o WHERE o.orderStatus = 'completed'", Order.class).getResultList();
         for (Order order : completedOrders) {
-            System.out.println("Order ID: " + order.getId() + ", Restaurant Name: " + orderControl.getRestaurant(order.getResturantId()).getName());
-            // Print more details or perform any other operations
+        	Restaurant restaurant = entityManager.find(Restaurant.class, order.getResturantId());
+            System.out.println("Order ID: " + order.getId() + ", Restaurant Name: " + restaurant.getName());
         }
     }
 }
