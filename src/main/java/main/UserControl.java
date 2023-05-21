@@ -8,6 +8,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import java.util.Scanner;
@@ -23,25 +24,27 @@ public class UserControl {
 	@POST
 	@Path("/login")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public boolean login(String email, String password) {
-	    // Create a query to check if a user with the given name and password exists
-	    Query query = entityManager.createQuery("SELECT u.role FROM User u WHERE u.email = email AND u.password = password");
+	public Response login(UserCredentials credentials) {
+	    String email = credentials.getEmail();
+	    String password = credentials.getPassword();
 	    
-	    query.setParameter("name", email);
+	    // Create a query to check if a user with the given email and password exists
+	    Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.email = :email AND u.password = :password");
+	    
+	    query.setParameter("email", email);
 	    query.setParameter("password", password);
 
-	    // Execute the query and get the result
-	    User user = (User) query.getSingleResult();
-	    
-	    // If the query returns a user, it means the login is successful
-	    // Otherwise, an exception would be thrown, and we can catch it to handle the failed login
-	    if (user != null) {
-	    	openApp(user.getRole());
-	        return true;
-	    } else {
-	        return false;
+	    try {
+	        // Execute the query and get the result
+	        User user = (User) query.getSingleResult();
+	        
+	        // If the query returns a user, it means the login is successful
+	        openApp(user.getRole());
+	        return Response.ok().build();
+	    } catch (NoResultException e) {
+	        // If no user is found, return an unauthorized response
+	        return Response.status(Response.Status.UNAUTHORIZED).build();
 	    }
-
 	}
 
 	
@@ -97,9 +100,32 @@ public class UserControl {
 	}
 
 	
-
-	void openApp(String Role) {
-		//open interface aka boundary class depending on the role
-		//Please update the class diagram
+	void openApp(String role) {
+		try {
+		    if (role.equals("Customer")) {
+		        // Logic for opening the app for a customer
+		    	
+		    	
+		    } 
+		    
+		    else if (role.equals("Owner")) {
+		        // Logic for opening the app for an owner
+		    } 
+		    
+		    else if (role.equals("Runner")) {
+		        // Logic for opening the app for a runner
+		    } 
+		    
+		    else {
+		        throw new RuntimeException("Invalid role: " + role);
+		    }
+		} catch (IllegalArgumentException e) {
+	        // Handle the exception here
+	        System.out.println("Error: " + e.getMessage());
+	        // Perform any necessary error handling or logging
+	    }
+		
 	}
+
+	
 }
