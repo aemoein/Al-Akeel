@@ -45,4 +45,3 @@ public class orderControl {
         return Response.ok(entityManager.find(Order.class, orderId)).build();
     }
 }
-
