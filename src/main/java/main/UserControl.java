@@ -1,16 +1,28 @@
 package main;
 
 import javax.persistence.Query;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import java.util.Scanner;
 
+
+@Stateless
+@Path("/user")
 public class UserControl {
 	
 	@PersistenceContext
 	private EntityManager entityManager;
 
+	@POST
+	@Path("/login")
+	@Consumes(MediaType.APPLICATION_JSON)
 	public boolean login(String email, String password) {
 	    // Create a query to check if a user with the given name and password exists
 	    Query query = entityManager.createQuery("SELECT u.role FROM User u WHERE u.email = email AND u.password = password");
@@ -33,7 +45,15 @@ public class UserControl {
 	}
 
 	
-	boolean SignUp(String name,String email, String password, String role) {
+	@POST
+	@Path("/signup")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response signUp(User userData) {
+	    String name = userData.getName();
+	    String email = userData.getEmail();
+	    String password = userData.getPassword();
+	    String role = userData.getRole();
+
 	    if (role.equalsIgnoreCase("runner")) {
 	        // Prompt the user for the delivery fees
 	        float deliveryFees = promptForDeliveryFees();
@@ -61,7 +81,7 @@ public class UserControl {
 	        entityManager.persist(user);
 	    }
 
-	    return true; // SignUp successful
+	    return Response.ok().build(); // SignUp successful
 	}
 	
 
