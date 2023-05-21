@@ -76,7 +76,7 @@ public class Order {
 		this.restaurantId = restaurantId;
 	}
 
-	public void setOrder_status(String orderStatus) {
+	public void setOrderStatus(String orderStatus) {
 		this.orderStatus = orderStatus;
 	}
 
@@ -90,7 +90,7 @@ public class Order {
 
 	public long getResturantId() {return this.restaurantId;}
 
-	public String getOrder_status() {return this.orderStatus;}
+	public String getOrderStatus() {return this.orderStatus;}
 
 	public void addItems(Meal meal) {
 		this.items.add(meal);

@@ -1,7 +1,9 @@
 package main;
 
-import java.sql.RowId;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
@@ -9,6 +11,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Persistence;
 import javax.persistence.Table;
 
@@ -19,28 +23,34 @@ public class Restaurant {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
+	
 	@Column(name = "ownerId")
     private Long ownerId;
+	
 	@Column(name = "name")
 	private String Name;
 	
-	private Meal meal = new Meal();
+	@OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "restaurant_id")
+    private List<Meal> meals;
 	
 	// default constructor 
-	public Restaurant() {}
+	public Restaurant() {
+        meals = new ArrayList<>();
+    }
 	
-	public Restaurant(Long Id , Long OwnerId, String resName)
+	public Restaurant(Long Id , Long ownerId, String Name)
 	{
-		this.Id = Id;
-		this.ownerId = OwnerId;
-		this.Name = resName;
+		this.Name = Name;
+        this.ownerId = ownerId;
+        meals = new ArrayList<>();
 	}
 	
 	public void setName(String name)
 	{
 		this.Name = name;
 	}
-	public String getNmString()
+	public String getName()
 	{
 		return this.Name;
 	}
@@ -55,34 +65,32 @@ public class Restaurant {
 		return this.Id;
 	}
 	
-	
 	public void setOwnerId(long ownerId)
 	{
 		this.ownerId = ownerId;
 	}
-	public long getownerId()
+	public long getOwnerId()
 	{
 		return this.ownerId;
 	}
 	
-	public void addMeal(Meal meal)
-	{
-		// add meal to the menu 
-		
-		
-		// add the menu to the DB
-		// creating entity manger 
-		EntityManagerFactory entityManger = Persistence.createEntityManagerFactory("");
-	}
-	
-	public void removeMeal(Meal meal)
-	{
-		
-		// remove meal to the menu 
-		
-		
-		// remove the menu to the DB
-		// creating entity manger 
-		EntityManagerFactory entityManger = Persistence.createEntityManagerFactory("");
-	}
+	public void addMeal(Meal meal) {
+        meals.add(meal);
+        meal.setRestaurant(this);
+        entityManager.merge(meal);
+    }
+
+    public void removeMeal(Meal meal) {
+        meals.remove(meal);
+        meal.setRestaurant(null);
+        entityManager.merge(meal);
+    }
+    
+    public List<Meal> getMeals() {
+        return meals;
+    }
+
+    public void setMeals(List<Meal> meals) {
+        this.meals = meals;
+    }
 }
