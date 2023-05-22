@@ -1,0 +1,5 @@
+<jboss-web>
+    <context-root>/myapp</context-root> <!-- Define the context root for your application -->
+    <security-domain>userroles</security-domain>
+    <!-- Other JBoss-specific configuration settings -->
+</jboss-web>
