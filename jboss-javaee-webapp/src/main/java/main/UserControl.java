@@ -4,6 +4,8 @@ import javax.persistence.Query;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ejb.Stateless;
@@ -16,21 +18,18 @@ import java.util.Scanner;
 
 @Stateless
 @Path("/user")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class UserControl {
 	
     @PersistenceContext
 	private EntityManager entityManager;
 
 	@POST
-	@Path("/login")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response login(UserCredentials credentials) {
-	    String email = credentials.getEmail();
-	    String password = credentials.getPassword();
-	    
+	@Path("/login/{email}/{password}")
+	public Response login(@PathParam("email") String email, @PathParam("password") String password) {
 	    // Create a query to check if a user with the given email and password exists
 	    Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.email = :email AND u.password = :password");
-	    
 	    query.setParameter("email", email);
 	    query.setParameter("password", password);
 
@@ -49,18 +48,9 @@ public class UserControl {
 
 	
 	@POST
-	@Path("/signup")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response signUp(User userData) {
-	    String name = userData.getName();
-	    String email = userData.getEmail();
-	    String password = userData.getPassword();
-	    String role = userData.getRole();
-
+	@Path("/login/{name}/{email}/{password}/{role}/{fees}")
+	public Response signUp(@PathParam("name") String name, @PathParam("email") String email, @PathParam("password") String password, @PathParam("role") String role) {
 	    if (role.equalsIgnoreCase("runner")) {
-	        // Prompt the user for the delivery fees
-	        float deliveryFees = promptForDeliveryFees();
-
 	        // Create a new Runner object and set the properties
 	        Runner runner = new Runner();
 	        runner.setName(name);
@@ -68,7 +58,6 @@ public class UserControl {
 	        runner.setPassword(password);
 	        runner.setRole(role);
 	        runner.setStatus(false); // Assuming initial status is false
-	        runner.setFee(deliveryFees);
 
 	        // Persist the Runner object into the "Runner" table
 	        entityManager.persist(runner);
@@ -79,6 +68,7 @@ public class UserControl {
 	        user.setEmail(email);
 	        user.setPassword(password);
 	        user.setRole(role);
+	        UserCredentials.currentUser = user;
 
 	        // Persist the User object into the "User" table
 	        entityManager.persist(user);
@@ -88,15 +78,13 @@ public class UserControl {
 	}
 	
 
-	private float promptForDeliveryFees() {
-		Scanner scanner = new Scanner(System.in);
-	    
-	    System.out.print("Please set the minimum fees for the next trip: ");
-	    float fees = scanner.nextFloat();
-	    
-	    scanner.nextLine(); // Consume the newline character
-	    
-	    return fees;
+	@POST
+	@Path("/DeliveryFees/{fees}/{email}")
+	private Response promptForDeliveryFees(@PathParam("fees") float fees, @PathParam("email") String email) {
+		Runner runner = entityManager.find(Runner.class, email);
+		runner.setFee(fees);
+	    entityManager.persist(runner);
+	    return Response.ok().build();
 	}
 
 	
