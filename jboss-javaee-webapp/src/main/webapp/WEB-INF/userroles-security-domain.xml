@@ -1,8 +1,0 @@
-<security-domain name="userroles" cache-type="default">
-    <authentication>
-        <login-module code="YourLoginModule" flag="required">
-            <module-option name="usersProperties" value="file:///Users/doem1/Documents/GitHub/Al-Akeel/jboss-javaee-webapp/security-domain/hello-users.properties"/>
-			<module-option name="rolesProperties" value="file:///Users/doem1/Documents/GitHub/Al-Akeel/jboss-javaee-webapp/security-domain/hello-roles.properties"/>
-        </login-module>
-    </authentication>
-</security-domain>
