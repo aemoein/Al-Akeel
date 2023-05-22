@@ -17,6 +17,8 @@
 		<auth-method>BASIC</auth-method>
 	</login-config>
 
+
+
    <security-constraint>
 	   <web-resource-collection>
 		 <web-resource-name>Secure resources</web-resource-name>
@@ -29,6 +31,7 @@
 		</auth-constraint>
 	</security-constraint>
 	
+
 	
 	<security-constraint>
 	   <web-resource-collection>
@@ -41,6 +44,9 @@
 			<role-name>user</role-name>
 		</auth-constraint>
 	</security-constraint>
+	
+	
+	
 	
 	<security-constraint>
 	   <web-resource-collection>
