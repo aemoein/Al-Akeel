@@ -1,7 +1,9 @@
 package main;
 
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -12,8 +14,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-
-import java.util.Scanner;
+import java.util.List;
 
 
 @Stateless
@@ -48,7 +49,7 @@ public class UserControl {
 
 	
 	@POST
-	@Path("/login/{name}/{email}/{password}/{role}/{fees}")
+	@Path("/signup/{name}/{email}/{password}/{role}")
 	public Response signUp(@PathParam("name") String name, @PathParam("email") String email, @PathParam("password") String password, @PathParam("role") String role) {
 	    if (role.equalsIgnoreCase("runner")) {
 	        // Create a new Runner object and set the properties
@@ -80,11 +81,45 @@ public class UserControl {
 
 	@POST
 	@Path("/DeliveryFees/{fees}/{email}")
-	private Response promptForDeliveryFees(@PathParam("fees") float fees, @PathParam("email") String email) {
+	public Response promptForDeliveryFees(@PathParam("fees") float fees, @PathParam("email") String email) {
 		Runner runner = entityManager.find(Runner.class, email);
 		runner.setFee(fees);
 	    entityManager.persist(runner);
 	    return Response.ok().build();
+	}
+	
+	@GET
+	@Path("/getAllUsers")
+	public Response getAllUsers() {
+	    TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u", User.class);
+	    List<User> users = query.getResultList();
+
+	    StringBuilder responseBuilder = new StringBuilder();
+	    for (User user : users) {
+	        responseBuilder.append("Username: ").append(user.getName())
+	            .append(", Email: ").append(user.getEmail())
+	            .append("\n");
+	    }
+
+	    String response = responseBuilder.toString();
+
+	    return Response.ok(response).build();
+	}
+	
+	@GET
+	@Path("/getCurrentUser")
+	public Response getCurrentUser() {
+	    User user = UserCredentials.currentUser;
+
+	    StringBuilder responseBuilder = new StringBuilder();
+	    
+        responseBuilder.append("Username: ").append(user.getName())
+            .append(", Email: ").append(user.getEmail())
+            .append("\n");
+
+	    String response = responseBuilder.toString();
+
+	    return Response.ok(response).build();
 	}
 
 	

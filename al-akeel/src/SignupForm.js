@@ -30,7 +30,7 @@ const SignupForm = () => {
 
     try {
       // Make a POST request to the signup endpoint of your Java EE backend
-      await axios.post(`/user/login/${name}/${email}/${password}/${role}`);
+      await axios.post(`http://localhost:8080/jboss-javaee-webapp/api/user/login/${name}/${email}/${password}/${role}`);
       setIsSignedUp(true);
     } catch (error) {
       console.error('Signup failed', error);

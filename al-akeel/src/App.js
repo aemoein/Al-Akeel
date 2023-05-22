@@ -11,6 +11,7 @@ const App = () => {
 
   return (
     <div>
+      <h1>Al-Akeel</h1>
       <h1>User Authentication</h1>
       <div>
         <input

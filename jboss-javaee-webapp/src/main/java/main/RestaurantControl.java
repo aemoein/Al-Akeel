@@ -12,20 +12,14 @@ import javax.ws.rs.core.Response;
 @Path("/RestaurantControl")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-
 public class RestaurantControl 
 {
 	@PersistenceContext
 	EntityManager entityManager;
-	
-	public RestaurantControl()
-	{
-		EntityManager entityManager;
-	}
     
 	
 	@POST
-    @Path("/addMeal/{name}/{price}/{restaurantId}/")
+    @Path("/addMeal/{name}/{price}/{restaurantId}")
 	public Response addMeal(@PathParam("name") String name,@PathParam("price") float price,@PathParam("restaurantId") long restaurantId) {
 		Restaurant restaurant = entityManager.find(Restaurant.class, restaurantId);
 		String responseString;
@@ -38,7 +32,7 @@ public class RestaurantControl
     }
 
 	@DELETE
-    @Path("/removeMeal/{mealId}/{restaurantId}/")
+    @Path("/removeMeal/{mealId}/{restaurantId}")
     public Response removeMeal(@PathParam("mealId") long mealId,@PathParam("restaurantId") long restaurantId) {
     	Restaurant restaurant = entityManager.find(Restaurant.class, restaurantId);
     	Meal meal = entityManager.find(Meal.class, mealId);

@@ -19,7 +19,7 @@ const LoginForm = () => {
 
     try {
       // Make a POST request to the login endpoint of your Java EE backend
-      const response = await axios.post(`/user/login/${email}/${password}`);
+      const response = await axios.post(`http://localhost:8080/jboss-javaee-webapp/api/user/login/${email}/${password}`);
       console.log('Login successful', response);
       // Perform any additional actions after successful login
     } catch (error) {

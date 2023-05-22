@@ -1,5 +1,6 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -13,8 +14,10 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 
 @Stateless
@@ -27,19 +30,26 @@ public class RestaurantOwnerControl {
     private EntityManager entityManager;
 	
 	@PUT
-    @Path("/createMenu/{mealNum}/{mealName}/{mealPrice}/{restaurantId}")
-	public Response CreateMenu(@PathParam("mealNum") int mealNum, @PathParam("mealName") String mealName, @PathParam("mealPrice") float mealPrice, @PathParam("restaurantId") long restaurantId)
-	{
-		Restaurant restaurant = entityManager.find(Restaurant.class, restaurantId);
-		
-		for (int i=0; i<mealNum; i++)
-		{
-			Meal meal = new Meal(mealName, mealPrice,restaurantId);
+	@Path("/createMenu/{mealNum}")
+	public Response createMenu(@PathParam("mealNum") int mealNum, @Context UriInfo uriInfo) {
+	    List<Meal> meals = new ArrayList<>();
+
+	    for (int i = 0; i < mealNum; i++) {
+	        String mealName = uriInfo.getQueryParameters().getFirst("mealName" + i);
+	        float mealPrice = Float.parseFloat(uriInfo.getQueryParameters().getFirst("mealPrice" + i));
+	        long restaurantId = Long.parseLong(uriInfo.getQueryParameters().getFirst("restaurantId" + i));
+
+	        Restaurant restaurant = entityManager.find(Restaurant.class, restaurantId);
+
+	        Meal meal = new Meal(mealName, mealPrice, restaurantId);
 	        restaurant.getMeals().add(meal);
 	        entityManager.persist(meal);
-		}
-		entityManager.persist(restaurant);
-		return Response.ok(restaurant.getMeals()).build();
+	        entityManager.persist(restaurant);
+
+	        meals.add(meal);
+	    }
+
+	    return Response.ok(meals).build();
 	}
 	
 	@GET
