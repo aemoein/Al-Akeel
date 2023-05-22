@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
 import LoginForm from './LoginForm';
-import SignupForm from './SignupForm.js';
+import SignupForm from './SignupForm';
+import Customer from './Customer';
+import RestaurantOwner from './RestaurantOwner';
+import Runner from './Runner';
 
 const App = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const [userRole, setUserRole] = useState('');
 
   const handleOptionChange = (option) => {
     setIsLogin(option === 'login');
+  };
+
+  const handleUserRole = (role) => {
+    setUserRole(role);
   };
 
   return (
@@ -34,7 +42,14 @@ const App = () => {
         />
         <label htmlFor="signup">Sign Up</label>
       </div>
-      {isLogin ? <LoginForm /> : <SignupForm />}
+      {isLogin ? (
+        <LoginForm handleUserRole={handleUserRole} />
+      ) : (
+        <SignupForm handleUserRole={handleUserRole} />
+      )}
+      {userRole === 'customer' && <Customer />}
+      {userRole === 'restaurant_owner' && <RestaurantOwner />}
+      {userRole === 'runner' && <Runner />}
     </div>
   );
 };

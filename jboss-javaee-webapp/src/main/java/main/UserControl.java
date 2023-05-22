@@ -26,26 +26,27 @@ public class UserControl {
     @PersistenceContext
 	private EntityManager entityManager;
 
-	@POST
-	@Path("/login/{email}/{password}")
-	public Response login(@PathParam("email") String email, @PathParam("password") String password) {
-	    // Create a query to check if a user with the given email and password exists
-	    Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.email = :email AND u.password = :password");
-	    query.setParameter("email", email);
-	    query.setParameter("password", password);
-
-	    try {
-	        // Execute the query and get the result
-	        User user = (User) query.getSingleResult();
-	        
-	        // If the query returns a user, it means the login is successful
-	        openApp(user.getRole());
-	        return Response.ok().build();
-	    } catch (NoResultException e) {
-	        // If no user is found, return an unauthorized response
-	        return Response.status(Response.Status.UNAUTHORIZED).build();
-	    }
-	}
+    @POST
+    @Path("/login/{email}/{password}")
+    public Response login(@PathParam("email") String email, @PathParam("password") String password) {
+        TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class);
+        query.setParameter("email", email);
+        
+        try {
+            User user = query.getSingleResult();
+            
+            if (user.getPassword().equals(password)) {
+                // Email and password match, return 200 OK
+                return Response.ok(user.getRole()).build();
+            } else {
+                // Password is incorrect, return an error response
+                return Response.status(Response.Status.UNAUTHORIZED).build();
+            }
+        } catch (NoResultException e) {
+            // User with the provided email not found, return an error response
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+    }
 
 	
 	@POST
@@ -98,6 +99,7 @@ public class UserControl {
 	    for (User user : users) {
 	        responseBuilder.append("Username: ").append(user.getName())
 	            .append(", Email: ").append(user.getEmail())
+	            .append(", Role: ").append(user.getRole())
 	            .append("\n");
 	    }
 
@@ -115,6 +117,7 @@ public class UserControl {
 	    
         responseBuilder.append("Username: ").append(user.getName())
             .append(", Email: ").append(user.getEmail())
+            .append(", Role: ").append(user.getRole())
             .append("\n");
 
 	    String response = responseBuilder.toString();

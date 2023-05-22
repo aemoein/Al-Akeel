@@ -5,6 +5,7 @@ import './LoginForm.css';
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loginResponse, setLoginResponse] = useState(null); // Store server response
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -16,17 +17,37 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
-      // Make a POST request to the login endpoint of your Java EE backend
       const response = await axios.post(`http://localhost:8080/jboss-javaee-webapp/api/user/login/${email}/${password}`);
-      console.log('Login successful', response);
-      // Perform any additional actions after successful login
+  
+      if (response.status === 200) {
+        const role = response.data;
+
+        switch (role) {
+          case 'Customer':
+            setLoginResponse('success');
+            window.location.href = '/customer';
+            break;
+          case 'RestaurantOwner':
+            window.location.href = '/restaurant-owner';
+            break;
+          case 'Runner':
+            window.location.href = '/runner';
+            break;
+          default:
+            console.error('Invalid role');
+            // Handle invalid role
+            break;
+        }
+      } else {
+        setLoginResponse('Login failed'); // Store failure message
+      }
     } catch (error) {
       console.error('Login failed', error);
-      // Handle login failure
+      setLoginResponse('Login failed' + error); // Store an error message
     }
-  };
+  };  
 
   return (
     <form className="form-container" onSubmit={handleSubmit}>
@@ -40,6 +61,15 @@ const LoginForm = () => {
         <input type="password" id="password" value={password} onChange={handlePasswordChange} />
       </div>
       <button type="submit">Login</button>
+
+      {loginResponse && (
+        <div>
+          <p>{loginResponse}</p>
+          {loginResponse === 'Login successful' && (
+            <button onClick={() => window.location.href = "/app"}>Go to App</button>
+          )}
+        </div>
+      )}
     </form>
   );
 };

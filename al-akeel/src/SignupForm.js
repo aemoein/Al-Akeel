@@ -7,7 +7,7 @@ const SignupForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
-  const [isSignedUp, setIsSignedUp] = useState(false); // Track sign up status
+  const [signupResponse, setSignupResponse] = useState(null); // Store server response
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -29,22 +29,28 @@ const SignupForm = () => {
     e.preventDefault();
 
     try {
-      // Make a POST request to the signup endpoint of your Java EE backend
-      await axios.post(`http://localhost:8080/jboss-javaee-webapp/api/user/login/${name}/${email}/${password}/${role}`);
-      setIsSignedUp(true);
+      const response = await axios.post(`http://localhost:8080/jboss-javaee-webapp/api/user/signup/${name}/${email}/${password}/${role}`);
+
+      if (response.status === 200) {
+        setSignupResponse('Signup successful'); // Store success message
+      } else {
+        setSignupResponse('Signup failed'); // Store failure message
+      }
     } catch (error) {
       console.error('Signup failed', error);
-      // Handle signup failure
+      setSignupResponse('Signup successful'); // Store an error message
     }
   };
 
   return (
     <div className="form-container">
-      {isSignedUp ? (
+      {signupResponse ? (
         <>
           <h2>Sign Up</h2>
-          <p>Sign up successful! Please log in:</p>
-          <a href="/login">Go to Login</a>
+          <p>{signupResponse}</p>
+          {signupResponse !== 'Signup failed' && (
+            <button onClick={() => window.location.href = "/login"}>Go to Login</button>
+          )}
         </>
       ) : (
         <form onSubmit={handleSubmit}>
@@ -63,7 +69,12 @@ const SignupForm = () => {
           </div>
           <div>
             <label htmlFor="role">Role:</label>
-            <input type="text" id="role" value={role} onChange={handleRoleChange} />
+            <select id="role" value={role} onChange={handleRoleChange}>
+              <option value="">Select Role</option>
+              <option value="Customer">Customer</option>
+              <option value="RestaurantOwner">Restaurant Owner</option>
+              <option value="Runner">Runner</option>
+            </select>
           </div>
           <button type="submit">Sign Up</button>
         </form>
