@@ -1,0 +1,656 @@
+{
+	"info": {
+		"_postman_id": "62ae5346-3a2b-493b-a75c-aa7e3a229194",
+		"name": "Al-Akeel",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25121317",
+		"_collection_link": "https://ae-coding.postman.co/workspace/My-Workspace~1a7d7998-e7b1-4939-8efd-6eb1106fa809/collection/25121317-62ae5346-3a2b-493b-a75c-aa7e3a229194?action=share&creator=25121317&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "User APIs",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/jboss-javaee-webapp/api/user/login/ahmed33elsayed/12345",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"jboss-javaee-webapp",
+								"api",
+								"user",
+								"login",
+								"ahmed33elsayed",
+								"12345"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/jboss-javaee-webapp/api/user/signup/Abdulrahman/theonlyabdo/12345/customer",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"jboss-javaee-webapp",
+								"api",
+								"user",
+								"signup",
+								"Abdulrahman",
+								"theonlyabdo",
+								"12345",
+								"customer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/jboss-javaee-webapp/api/user/getAllUsers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"jboss-javaee-webapp",
+								"api",
+								"user",
+								"getAllUsers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Current User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/jboss-javaee-webapp/api/user/getCurrentUser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"jboss-javaee-webapp",
+								"api",
+								"user",
+								"getCurrentUser"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Restaurant Owner APIs",
+			"item": [
+				{
+					"name": "Create Menu",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "mealName0",
+									"value": "Burger",
+									"type": "text"
+								},
+								{
+									"key": "mealPrice0",
+									"value": "9.99",
+									"type": "text"
+								},
+								{
+									"key": "restaurantId0",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "mealName1",
+									"value": "Pizza",
+									"type": "text"
+								},
+								{
+									"key": "mealPrice1",
+									"value": "12.99",
+									"type": "text"
+								},
+								{
+									"key": "restaurantId1",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "mealName2",
+									"value": "Salad",
+									"type": "text"
+								},
+								{
+									"key": "mealPrice2",
+									"value": "7.99",
+									"type": "text"
+								},
+								{
+									"key": "restaurantId2",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/jboss-javaee-webapp/api/RestaurantOwnerControl/createMenu/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"jboss-javaee-webapp",
+								"api",
+								"RestaurantOwnerControl",
+								"createMenu",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Restaurant Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/jboss-javaee-webapp/api/RestaurantOwnerControl/getRestaurantDetails/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"jboss-javaee-webapp",
+								"api",
+								"RestaurantOwnerControl",
+								"getRestaurantDetails",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Restaurant",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/jboss-javaee-webapp/api/RestaurantOwnerControl/AddRestaurant/2/aeBurgers&Pizzas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"jboss-javaee-webapp",
+								"api",
+								"RestaurantOwnerControl",
+								"AddRestaurant",
+								"2",
+								"aeBurgers&Pizzas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Restaurant",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/jboss-javaee-webapp/api/RestaurantOwnerControl/editRestaurant/1/2/Sushi/39.9/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"jboss-javaee-webapp",
+								"api",
+								"RestaurantOwnerControl",
+								"editRestaurant",
+								"1",
+								"2",
+								"Sushi",
+								"39.9",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a new Restaurant report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/jboss-javaee-webapp/api/RestaurantOwnerControl/creatRestaurantReport/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"jboss-javaee-webapp",
+								"api",
+								"RestaurantOwnerControl",
+								"creatRestaurantReport",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Restaurant APIs",
+			"item": [
+				{
+					"name": "Add Meal",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/jboss-javaee-webapp/api/RestaurantControl/addMeal/Salmon/49.9/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"jboss-javaee-webapp",
+								"api",
+								"RestaurantControl",
+								"addMeal",
+								"Salmon",
+								"49.9",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Meal",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/jboss-javaee-webapp/api/RestaurantControl/removeMeal/6/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"jboss-javaee-webapp",
+								"api",
+								"RestaurantControl",
+								"removeMeal",
+								"6",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order APIs",
+			"item": [
+				{
+					"name": "Get Restaurant",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/jboss-javaee-webapp/api/orderControl/getRestaurant/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"jboss-javaee-webapp",
+								"api",
+								"orderControl",
+								"getRestaurant",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Meal",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/jboss-javaee-webapp/api/orderControl/getMeal/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"jboss-javaee-webapp",
+								"api",
+								"orderControl",
+								"getMeal",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Meals",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/jboss-javaee-webapp/api/orderControl/getMealsList",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"jboss-javaee-webapp",
+								"api",
+								"orderControl",
+								"getMealsList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/jboss-javaee-webapp/api/orderControl/getOrder/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"jboss-javaee-webapp",
+								"api",
+								"orderControl",
+								"getOrder",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Customer APIs",
+			"item": [
+				{
+					"name": "create order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/jboss-javaee-webapp/api/customer/create-order/1/1/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"jboss-javaee-webapp",
+								"api",
+								"customer",
+								"create-order",
+								"1",
+								"1",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Order",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/jboss-javaee-webapp/api/customer/edit-order/2/1/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"jboss-javaee-webapp",
+								"api",
+								"customer",
+								"edit-order",
+								"2",
+								"1",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel Order",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/jboss-javaee-webapp/api/customer/cancel-order/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"jboss-javaee-webapp",
+								"api",
+								"customer",
+								"cancel-order",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Restaurants",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/jboss-javaee-webapp/api/customer/list-restaurants",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"jboss-javaee-webapp",
+								"api",
+								"customer",
+								"list-restaurants"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Runner APIs",
+			"item": [
+				{
+					"name": "Accept Order",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/jboss-javaee-webapp/api/runners/orders/1/accept",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"jboss-javaee-webapp",
+								"api",
+								"runners",
+								"orders",
+								"1",
+								"accept"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel Order",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/jboss-javaee-webapp/api/runners/orders/1/cancel",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"jboss-javaee-webapp",
+								"api",
+								"runners",
+								"orders",
+								"1",
+								"cancel"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Complete Order",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/jboss-javaee-webapp/api/runners/orders/1/complete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"jboss-javaee-webapp",
+								"api",
+								"runners",
+								"orders",
+								"1",
+								"complete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Trip Number",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/jboss-javaee-webapp/api/runners/trips",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"jboss-javaee-webapp",
+								"api",
+								"runners",
+								"trips"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Trip History",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/jboss-javaee-webapp/api/runners/history",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"jboss-javaee-webapp",
+								"api",
+								"runners",
+								"history"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
