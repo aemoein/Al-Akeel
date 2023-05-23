@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import './LoginForm.css';
 
@@ -6,6 +7,7 @@ const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginResponse, setLoginResponse] = useState(null); // Store server response
+  const history = useHistory();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -17,23 +19,25 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
-      const response = await axios.post(`http://localhost:8080/jboss-javaee-webapp/api/user/login/${email}/${password}`);
-  
+      const response = await axios.post(
+        `http://localhost:8080/jboss-javaee-webapp/api/user/login/${email}/${password}`
+      );
+
       if (response.status === 200) {
         const role = response.data;
 
         switch (role) {
           case 'Customer':
             setLoginResponse('success');
-            window.location.href = '/customer';
+            history.push('/customer');
             break;
           case 'RestaurantOwner':
-            window.location.href = '/restaurant-owner';
+            history.push('/restaurant-owner');
             break;
           case 'Runner':
-            window.location.href = '/runner';
+            history.push('/runner');
             break;
           default:
             console.error('Invalid role');
@@ -47,7 +51,7 @@ const LoginForm = () => {
       console.error('Login failed', error);
       setLoginResponse('Login failed' + error); // Store an error message
     }
-  };  
+  };
 
   return (
     <form className="form-container" onSubmit={handleSubmit}>
@@ -66,7 +70,7 @@ const LoginForm = () => {
         <div>
           <p>{loginResponse}</p>
           {loginResponse === 'Login successful' && (
-            <button onClick={() => window.location.href = "/app"}>Go to App</button>
+            <button onClick={() => history.push('/app')}>Go to App</button>
           )}
         </div>
       )}

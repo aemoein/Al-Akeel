@@ -37,6 +37,7 @@ public class UserControl {
             
             if (user.getPassword().equals(password)) {
                 // Email and password match, return 200 OK
+            	UserCredentials.currentUser = user;
                 return Response.ok(user.getRole()).build();
             } else {
                 // Password is incorrect, return an error response
@@ -70,7 +71,7 @@ public class UserControl {
 	        user.setEmail(email);
 	        user.setPassword(password);
 	        user.setRole(role);
-	        UserCredentials.currentUser = user;
+	        
 
 	        // Persist the User object into the "User" table
 	        entityManager.persist(user);

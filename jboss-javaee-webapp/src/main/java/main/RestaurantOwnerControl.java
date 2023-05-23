@@ -75,10 +75,11 @@ public class RestaurantOwnerControl {
 	}
 	
 	@POST
-    @Path("/AddRestaurant/{ownerId}/{Name}")
-	public Response AddRestaurant(@PathParam("ownerId") long ownerId, @PathParam("Name") String Name )
+    @Path("/AddRestaurant/{Name}")
+	public Response AddRestaurant(@PathParam("Name") String Name )
 	{
-		Restaurant restaurant = new Restaurant(ownerId, Name);
+		User user = UserCredentials.currentUser;
+		Restaurant restaurant = new Restaurant(user.getId(), Name);
 		entityManager.persist(restaurant);
 		return Response.ok("The Restaurant Name is :"+restaurant.getName() + " And has an id of: " + restaurant.getId()).build();
 	}

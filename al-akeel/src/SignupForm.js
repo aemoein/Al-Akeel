@@ -38,7 +38,7 @@ const SignupForm = () => {
       }
     } catch (error) {
       console.error('Signup failed', error);
-      setSignupResponse('Signup successful'); // Store an error message
+      setSignupResponse('Signup failed'); // Store an error message
     }
   };
 
