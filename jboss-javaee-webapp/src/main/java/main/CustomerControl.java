@@ -21,36 +21,19 @@ public class CustomerControl {
 	EntityManager entityManager;
 
     @POST
-    @Path("/create-order/{restaurantId}/{runnerId}")
-    public Response createOrder(@PathParam("restaurantId") long restaurantId, @PathParam("runnerId") long runnerId, @Context UriInfo uriInfo) {
+    @Path("/create-order/{restaurantId}/{runnerId}/{mealId}")
+    public Response createOrder(@PathParam("restaurantId") long restaurantId, @PathParam("runnerId") long runnerId, @PathParam("mealId") long mealid) {
         User orderUser = UserCredentials.currentUser;
         float totalPrice = 0;
-        Restaurant restaurant = entityManager.find(Restaurant.class, restaurantId);
         Order order = new Order();
         order.setRestaurantId(restaurantId);
         order.setfk_runnerId(runnerId);
         order.setUserId(orderUser.getId());
-        boolean addToOrder = true;
+        
+        Meal meal = entityManager.find(Meal.class, mealid);
 
-        while (addToOrder) {
-            List<Meal> meals = restaurant.getMeals();
-            System.out.println("Choose the meal you would like to add:");
-
-            // Retrieve the meal choice from query parameters
-            int addChoice = Integer.parseInt(uriInfo.getQueryParameters().getFirst("mealChoice"));
-
-            order.addItems(meals.get(addChoice - 1));
-            totalPrice += meals.get(addChoice - 1).getPrice();
-
-            System.out.println("Would you like to add more meals? 1. Yes 2. No:");
-
-            // Retrieve the continue choice from query parameters
-            int cont = Integer.parseInt(uriInfo.getQueryParameters().getFirst("continueChoice"));
-
-            if (cont == 2) {
-                addToOrder = false;
-            }
-        }
+      	order.addItems(meal);
+        totalPrice += meal.getPrice();
 
         order.setTotalPrice(totalPrice);
 
@@ -60,38 +43,32 @@ public class CustomerControl {
 
 
     @PUT
-    @Path("/edit-order/{orderId}")
-    public Response editOrder(@PathParam("orderId") long orderId, @Context UriInfo uriInfo) {
-        int choice = 0;
-
+    @Path("/edit-order/{choice}/{orderId}/{mealId}")
+    public Response editOrder(@PathParam("choice") int choice , @PathParam("orderId") long orderId, @PathParam("mealId") long mealId) {
         while (choice != 3) {
             System.out.println("Choose the desired edit:");
             System.out.println("1. Remove item");
             System.out.println("2. Add item");
             System.out.println("3. Exit");
             
-            // Retrieve the choice from query parameters
-            choice = Integer.parseInt(uriInfo.getQueryParameters().getFirst("editChoice"));
-            
             Order order = entityManager.find(Order.class, orderId);
             Restaurant restaurant = entityManager.find(Restaurant.class, order.getResturantId());
+            Meal meal = entityManager.find(Meal.class, mealId);
 
             if (choice == 1) {
                 order.getItemsArray();
                 System.out.println("Choose the meal you would like to remove:");
                 
                 // Retrieve the meal choice to remove from query parameters
-                int removeChoice = Integer.parseInt(uriInfo.getQueryParameters().getFirst("removeChoice"));
                 
-                order.getItemsArray().remove(removeChoice - 1);
+                order.RemoveItems(meal);
             } else if (choice == 2) {
                 restaurant.getMeals();
                 System.out.println("Choose the meal you would like to add:");
                 
                 // Retrieve the meal choice to add from query parameters
-                int addChoice = Integer.parseInt(uriInfo.getQueryParameters().getFirst("addChoice"));
                 
-                order.addItems(restaurant.getMeals().get(addChoice));
+                order.addItems(meal);
             } else {
                 entityManager.persist(order);
             }
