@@ -1,3 +1,4 @@
+
 .form-container {
     max-width: 400px;
     margin: 0 auto;
@@ -36,7 +37,8 @@
   select {
     appearance: none;
     width: 100%;
-    height: 30px;
+    padding: 10px;
+    height: 35px;
     background-color: #fff;
     background-image: linear-gradient(45deg, transparent 50%, #999 50%),
                       linear-gradient(135deg, #999 50%, transparent 50%);
