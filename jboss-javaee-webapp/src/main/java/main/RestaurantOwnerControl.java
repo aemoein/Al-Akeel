@@ -151,4 +151,20 @@ public class RestaurantOwnerControl {
 		String outputString = output.toString();
 		return Response.ok(outputString).build();
 	}	
+
+	@GET
+    @Path("/my-restaurants")
+    public Response getMyResturants() {
+        long ownerId = UserCredentials.currentUser.getId();
+        TypedQuery<Restaurant> query = entityManager.createQuery("SELECT r FROM Restaurant r WHERE r.ownerId = :ownerId", Restaurant.class);
+        query.setParameter("ownerId", ownerId);
+        List<Restaurant> restaurants = query.getResultList();
+
+        if (restaurants.isEmpty()) {
+            return Response.status(Response.Status.NOT_FOUND).entity("No restaurants found for the current owner.").build();
+        } else {
+            return Response.ok(restaurants).build();
+        }
+    }
+
 }
