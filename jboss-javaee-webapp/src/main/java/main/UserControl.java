@@ -130,16 +130,21 @@ public class UserControl {
 		try {
 		    if (role.equals("Customer")) {
 		        // Logic for opening the app for a customer
-		    	
+		    	CustomerInterface customerInterface = new CustomerInterface();
+		    	customerInterface.display();
 		    	
 		    } 
 		    
 		    else if (role.equals("Owner")) {
 		        // Logic for opening the app for an owner
+		    	OwnerInterFace ownerInterFace = new OwnerInterFace();
+		    	ownerInterFace.display();
 		    } 
 		    
 		    else if (role.equals("Runner")) {
 		        // Logic for opening the app for a runner
+		    	RunnerInterface runnerInterface = new RunnerInterface();
+		    	runnerInterface.display();
 		    } 
 		    
 		    else {
